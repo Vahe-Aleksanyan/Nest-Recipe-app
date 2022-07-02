@@ -1,0 +1,76 @@
+version: "3.9"
+
+services:
+  api_1:
+    image: nest_project_2
+    build:
+      context: . # vortex man ga dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001" # Local_port:container_port
+    volumes:
+      - .:/app # host folder:container folder
+    command: 'npm run start:dev' # override dockerfile CMD
+    environment:
+      - "DATABASE_URL=postgres://postgres:123@dev_db:5432/nest"
+#    env_file:
+#      - .env
+
+  api_test:
+    image: nest_project_2
+    build:
+      context: . # vortex man ga dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001" # Local_port:container_port
+    volumes:
+      - .:/app # host folder:container folder
+    command: 'npm test' # override dockerfile CMD
+    environment:
+      - "DATABASE_URL=postgres://postgres:123@test_db:5432/nest"
+
+  dev_db:
+    image: postgres:13
+    restart: "always"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: nest
+    volumes:
+      - pg_data:/var/lib/postgresql
+
+  test_db:
+    image: postgres:13
+    restart: "no"
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: nest
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dev_db
+      - test_db
+
+volumes:
+  pg_data:
+
+
+
+#    environment:
+#      - 'MONGO_URL=mongodb+srv://root:example@mongo:27017'
+
+#  mongo:
+#    image: mongo
+#    restart: always
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: example
