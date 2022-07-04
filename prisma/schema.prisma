@@ -21,7 +21,13 @@ model User {
   firstName String?
   LastName String?
 
-  bookmarks BookMark[]
+  //bookmarks BookMark[]
+
+  articles Article[]
+
+  comments Comment[]
+
+  booknarks BookMark[]
 
   @@map("Users")
 }
@@ -40,3 +46,50 @@ model BookMark {
 
     @@map("BookMarks")
 }
+
+model Article {
+    id Int  @default(autoincrement()) @id
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    title String
+    content String
+
+    imageUrl String?
+    likesNum Int @default(0)
+
+    creator  User @relation(fields: [authorId], references: [id])
+    authorId   Int // relation scalar field  (used in the `@relation` attribute above)
+
+    belongsCategory Category @relation(fields: [categoryId], references: [id])
+    categoryId Int
+
+    comments Comment[]
+
+    @@map("Articles")
+ }
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String
+  Article Article[]
+
+  @@map("Categories")
+}
+
+model Comment {
+     id Int  @default(autoincrement()) @id
+
+     content String
+
+     belongsArticle Article? @relation(fields: [articleId], references: [id]) // A comment can have one article
+     articleId Int?
+
+     belongsUser User? @relation(fields: [userId], references: [id])
+     userId Int?
+
+     createdAt DateTime @default(now())
+
+     @@map("Comments")
+}
+
