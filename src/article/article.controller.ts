@@ -1,6 +1,7 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -8,13 +9,13 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { JwtGuard } from '../auth/guard';
 import { ArticleService } from './article.service';
 import { GetUser } from '../auth/decorator';
 import { CreateArticleDto } from './dto/createArticle.dto';
-import { updateArticleDto } from './dto';
+import { UpdateArticleDto } from './dto';
 
 @UseGuards(JwtGuard) // for authorization
 @Controller('article')
@@ -43,7 +44,7 @@ export class ArticleController {
   updateArticleById(
     @GetUser('id') userid: number,
     @Param('id', ParseIntPipe) articleId: number,
-    @Body() dto: updateArticleDto,
+    @Body() dto: UpdateArticleDto,
   ) {
     return this.articleService.updateArticleById(userid, articleId, dto);
   }

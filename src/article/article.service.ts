@@ -1,17 +1,17 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateArticleDto } from './dto/createArticle.dto';
-import { UpdateArticleDto } from "./dto";
+import { UpdateArticleDto } from './dto';
 
 @Injectable()
 export class ArticleService {
-  constructor(private prisma: PrismaService) {
-  }
-  createArticle(dto: CreateArticleDto, authorId: number) {
-    const article = this.prisma.article.create({
+  constructor(private prisma: PrismaService) {}
+  async createArticle(dto: CreateArticleDto, userId: number) {
+    // don't forget to have category before running this route
+    const article = await this.prisma.article.create({
       data: {
-        authorId,
         ...dto,
+        userId,
       },
     });
     return article;
@@ -20,7 +20,7 @@ export class ArticleService {
   getArticles(userId) {
     return this.prisma.article.findMany({
       where: {
-        authorId: userId,
+        userId: userId,
       },
     });
   }
@@ -29,7 +29,7 @@ export class ArticleService {
     return this.prisma.article.findFirst({
       where: {
         id: articleId,
-        authorId: userId,
+        userId: userId,
       },
     });
   }
@@ -45,7 +45,7 @@ export class ArticleService {
       },
     });
 
-    if (!article || article.authorId !== userId) {
+    if (!article || article.userId !== userId) {
       throw new ForbiddenException('Access resource denied');
     }
 
@@ -65,7 +65,7 @@ export class ArticleService {
         id: articleId,
       },
     });
-    if (!article || article.authorId !== userId) {
+    if (!article || article.userId !== userId) {
       throw new ForbiddenException('Access resource denied');
     }
     await this.prisma.article.delete({

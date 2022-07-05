@@ -5,32 +5,38 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { createCommentDto } from '../../comment/dto/createComment.dto';
+import { ApiProperty } from '@nestjs/swagger';
 export class CreateArticleDto {
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
   title: string;
 
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
   content: string;
 
   @IsString()
   @IsOptional()
-  imageUrl: string;
+  @ApiProperty()
+  imageUrl?: string;
 
   @IsNumber()
   @IsOptional()
-  likesNum: number;
+  @ApiProperty()
+  likesNum?: number;
+
+  // @IsNumber()
+  // @IsOptional()
+  // userId: number;
 
   @IsNumber()
-  @IsNotEmpty()
-  authorId: number;
-
-  @IsNumber()
-  @IsNotEmpty()
+  @IsOptional()
+  @ApiProperty()
   categoryId: number;
 
-  @IsArray()
-  comments: [createCommentDto];
+  // @IsArray()
+  // @IsOptional()
+  // comments: [CreateCommentDto];
 }

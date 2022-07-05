@@ -1,29 +1,11 @@
 /*
   Warnings:
 
-  - You are about to drop the `BookMarks` table. If the table is not empty, all the data it contains will be lost.
+  - Added the required column `categoryId` to the `Articles` table without a default value. This is not possible if the table is not empty.
 
 */
--- DropForeignKey
-ALTER TABLE "BookMarks" DROP CONSTRAINT "BookMarks_userId_fkey";
-
--- DropTable
-DROP TABLE "BookMarks";
-
--- CreateTable
-CREATE TABLE "Articles" (
-    "id" SERIAL NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "title" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
-    "imageUrl" TEXT,
-    "likesNum" INTEGER NOT NULL DEFAULT 0,
-    "authorId" INTEGER NOT NULL,
-    "categoryId" INTEGER NOT NULL,
-
-    CONSTRAINT "Articles_pkey" PRIMARY KEY ("id")
-);
+-- AlterTable
+ALTER TABLE "Articles" ADD COLUMN     "categoryId" INTEGER NOT NULL;
 
 -- CreateTable
 CREATE TABLE "Categories" (
@@ -43,9 +25,6 @@ CREATE TABLE "Comments" (
 
     CONSTRAINT "Comments_pkey" PRIMARY KEY ("id")
 );
-
--- AddForeignKey
-ALTER TABLE "Articles" ADD CONSTRAINT "Articles_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Articles" ADD CONSTRAINT "Articles_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Categories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

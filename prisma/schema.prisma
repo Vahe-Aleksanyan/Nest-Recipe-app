@@ -1,6 +1,5 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
  provider = "prisma-client-js"
 }
@@ -15,13 +14,13 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  isVerified Boolean @default(false)
+
   email String @unique
   hash String
 
   firstName String?
   LastName String?
-
-  //bookmarks BookMark[]
 
   articles Article[]
 
@@ -56,10 +55,10 @@ model Article {
     content String
 
     imageUrl String?
-    likesNum Int @default(0)
+    likesNum Int? @default(0)
 
-    creator  User @relation(fields: [authorId], references: [id])
-    authorId   Int // relation scalar field  (used in the `@relation` attribute above)
+    userId Int
+    user User @relation(fields: [userId], references: [id] )
 
     belongsCategory Category @relation(fields: [categoryId], references: [id])
     categoryId Int
@@ -82,14 +81,24 @@ model Comment {
 
      content String
 
-     belongsArticle Article? @relation(fields: [articleId], references: [id]) // A comment can have one article
-     articleId Int?
+     belongsArticle Article @relation(fields: [articleId], references: [id]) // A comment can have one article
+     articleId Int
 
-     belongsUser User? @relation(fields: [userId], references: [id])
-     userId Int?
+     belongsUser User @relation(fields: [userId], references: [id])
+     userId Int
 
      createdAt DateTime @default(now())
 
      @@map("Comments")
 }
 
+model VerificationCode {
+
+    email String  @unique
+
+    code String @unique
+
+    createdAt DateTime @default(now())
+
+    @@map("Verification_codes")
+}
