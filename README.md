@@ -26,6 +26,7 @@
 
 
 1. User, Article, Bookmark, Comment, Category models with appropriate routes and functionality.
+3. databse - PostgreSQL
 2. Login  
 3. Registration 
 4. authorization 
@@ -34,9 +35,8 @@
 7. Forgot-password/reset via email
 8. change-password via email
 9. validation
-10. documentation 
+10. documentation with swagger
 11. tests for auth, bookmark routes
-
 
 ## Installation
 
