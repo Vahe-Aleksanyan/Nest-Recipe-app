@@ -7,10 +7,8 @@ import { AuthDto } from '../src/auth/dto';
 import { EditUserDto } from '../src/user/dto';
 import { CreateBookmarkDto, UpdateBookmarkDto } from '../src/bookmark/dto';
 
-
-import transformer from '@nestjs/swagger/plugin';
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-
+// import transformer from '@nestjs/swagger/plugin';
+// import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 describe('App e2e', () => {
   let app: INestApplication;

@@ -1,12 +1,11 @@
-import { Delete, ForbiddenException, Get, Injectable, Patch, Post } from "@nestjs/common";
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateBookmarkDto, UpdateBookmarkDto } from './dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { addWaitHandler } from "pactum/src/exports/handler";
+// import { addWaitHandler } from "pactum/src/exports/handler";
 
 @Injectable()
 export class BookmarkService {
-  constructor(private prisma: PrismaService) {
-  }
+  constructor(private prisma: PrismaService) {}
   async createBookmark(userId: number, dto: CreateBookmarkDto) {
     const bookMark = await this.prisma.bookMark.create({
       data: {
@@ -38,7 +37,7 @@ export class BookmarkService {
     userId: number,
     bookmarkId: number,
     dto: UpdateBookmarkDto,
-  ) {console.log("jjfjfjkjdnksjabnknfkdnaskBfkasbfhjasbjhlabfhjkabhjkabjkawbkhjerwfb ");
+  ) {
     const bookmark = await this.prisma.bookMark.findUnique({
       where: {
         id: bookmarkId,
@@ -58,7 +57,6 @@ export class BookmarkService {
         ...dto,
       },
     });
-
   }
 
   async deleteBookmarkById(userId: number, bookmarkId: number) {

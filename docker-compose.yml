@@ -58,7 +58,7 @@ services:
       - "8080:8080"
     depends_on:
       - dev_db
-      - test_db
+#      - test_db
 
 volumes:
   pg_data:

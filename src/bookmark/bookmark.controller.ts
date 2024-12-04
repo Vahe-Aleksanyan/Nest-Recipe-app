@@ -9,8 +9,8 @@ import {
   ParseIntPipe,
   Body,
   HttpCode,
-  HttpStatus
-} from "@nestjs/common";
+  HttpStatus,
+} from '@nestjs/common';
 import { JwtGuard } from '../auth/guard';
 import { BookmarkService } from './bookmark.service';
 import { GetUser } from '../auth/decorator';
